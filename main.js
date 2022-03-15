@@ -10,51 +10,49 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1280,
     height: 720,
+    icon: __dirname + "/vscode-icon.png",
+    autoHideMenuBar: true,
     fullscreen: false,
     webPreferences: {
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+    },
   });
 
-  globalShortcut.register('f5', function() {
-		mainWindow.reload()
-	})
-	globalShortcut.register('CommandOrControl+R', function() {
-		mainWindow.reload()
-	})
+  globalShortcut.register("f5", function () {
+    mainWindow.reload();
+  });
+  globalShortcut.register("CommandOrControl+R", function () {
+    mainWindow.reload();
+  });
 
   // and load the index.html of the app.
-  mainWindow.loadURL("https://localhost:8443/");
+  mainWindow.loadURL("http://192.168.1.60:8443/");
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
-  mainWindow.on("closed", function() {
+  mainWindow.on("closed", function () {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-    Electron.session.defaultSession.clearCache(() => {})
+    // Electron.session.defaultSession.clearCache(() => {});
     mainWindow = null;
   });
   // Create the Application's main menu
   const template = [
     {
-      label: "Application",
+      label: "File",
       submenu: [
-        {
-          label: "About Application",
-          selector: "orderFrontStandardAboutPanel:"
-        },
         { type: "separator" },
         {
           label: "Quit",
           accelerator: "Command+Q",
-          click: function() {
+          click: function () {
             app.quit();
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
     {
       label: "Edit",
@@ -68,13 +66,13 @@ function createWindow() {
         {
           label: "Select All",
           accelerator: "CmdOrCtrl+A",
-          selector: "selectAll:"
-        }
-      ]
-    }
+          selector: "selectAll:",
+        },
+      ],
+    },
   ];
 
-  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+  // Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
 
 // This method will be called when Electron has finished
@@ -83,7 +81,7 @@ function createWindow() {
 app.on("ready", createWindow);
 
 // Quit when all windows are closed.
-app.on("window-all-closed", function() {
+app.on("window-all-closed", function () {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== "darwin") {
@@ -91,7 +89,7 @@ app.on("window-all-closed", function() {
   }
 });
 
-app.on("activate", function() {
+app.on("activate", function () {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
